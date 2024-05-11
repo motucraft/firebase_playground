@@ -79,8 +79,7 @@ Future<void> _setupFlutterNotifications() async {
   /// We use this channel in the `AndroidManifest.xml` file to override the
   /// default FCM channel to enable heads up notifications.
   await _flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(_channel);
 
   /// Update the iOS foreground notification presentation options to allow
@@ -161,8 +160,7 @@ class Home extends HookWidget {
           log('onDidReceiveNotificationResponse');
           final payload = details.payload;
           if (payload?.isNotEmpty == true) {
-            _goNamed(context, jsonDecode(payload!),
-                'onDidReceiveNotificationResponse');
+            _goNamed(context, jsonDecode(payload!), 'onDidReceiveNotificationResponse');
           }
         },
       );
@@ -182,14 +180,12 @@ class Home extends HookWidget {
             children: [
               ElevatedButton(
                 child: const Text('open dialog'),
-                onPressed: () => context.goNamed(RoutingConfig.dialog.name,
-                    pathParameters: {'id': 'dummy'}),
+                onPressed: () => context.goNamed(RoutingConfig.dialog.name, pathParameters: {'id': 'dummy'}),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 child: const Text('open bottom sheet'),
-                onPressed: () => context.goNamed(RoutingConfig.bottomSheet.name,
-                    pathParameters: {'id': 'dummy'}),
+                onPressed: () => context.goNamed(RoutingConfig.bottomSheet.name, pathParameters: {'id': 'dummy'}),
               ),
             ],
           ),

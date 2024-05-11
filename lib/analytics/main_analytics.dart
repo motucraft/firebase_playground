@@ -105,14 +105,12 @@ GoRouter routing(RoutingRef ref) {
           GoRoute(
             path: 'page1',
             name: 'page1',
-            pageBuilder: (_, __) =>
-                const MaterialPage(name: 'page1', child: Page1()),
+            pageBuilder: (_, __) => const MaterialPage(name: 'page1', child: Page1()),
           ),
           GoRoute(
             path: 'page2',
             name: 'page2',
-            pageBuilder: (_, __) =>
-                const MaterialPage(name: 'page2', child: Page2()),
+            pageBuilder: (_, __) => const MaterialPage(name: 'page2', child: Page2()),
           ),
         ],
       ),
