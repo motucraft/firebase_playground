@@ -41,7 +41,7 @@ class Countries extends StatelessWidget {
     return ListView.separated(
       itemCount: countries.length,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      separatorBuilder: (_, __) => const Divider(),
+      separatorBuilder: (_, __) => const Divider(height: 1, color: Colors.blue),
       itemBuilder: (context, index) {
         final country = countries[index];
 

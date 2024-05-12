@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 class DialogPage<T> extends Page<T> {
@@ -46,13 +45,13 @@ class DialogPage<T> extends Page<T> {
   }
 }
 
-class InsertDialog extends HookConsumerWidget {
+class InsertDialog extends HookWidget {
   final VoidCallback? onTap;
 
   const InsertDialog({super.key, this.onTap});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final widthRatio = MediaQuery.sizeOf(context).width / 375;
 
     final name = useState('');
@@ -136,14 +135,14 @@ class InsertDialog extends HookConsumerWidget {
   }
 }
 
-class EditDialog extends HookConsumerWidget {
+class EditDialog extends HookWidget {
   final Country country;
   final VoidCallback? onTap;
 
   const EditDialog({super.key, required this.country, this.onTap});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final widthRatio = MediaQuery.sizeOf(context).width / 375;
 
     final population = useState(0);
@@ -162,6 +161,7 @@ class EditDialog extends HookConsumerWidget {
               const SizedBox(height: 8),
               Align(alignment: Alignment.centerLeft, child: Text(country.name)),
               TextField(
+                controller: useTextEditingController(text: country.population.toString()),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: const InputDecoration(hintText: 'population'),
