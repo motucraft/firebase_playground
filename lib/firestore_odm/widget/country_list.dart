@@ -22,7 +22,7 @@ class CountryList extends ConsumerWidget {
       ),
       body: SafeArea(
         child: switch (ref.watch(countriesNotifierProvider)) {
-          AsyncData(value: List<Country> countries) => _Countries(countries: countries),
+          AsyncData(value: List<Country> countries) => Countries(countries: countries),
           AsyncError(:final error, :final stackTrace) => SingleChildScrollView(child: Text('$error\n$stackTrace')),
           _ => const Center(child: CircularProgressIndicator()),
         },
@@ -31,10 +31,10 @@ class CountryList extends ConsumerWidget {
   }
 }
 
-class _Countries extends StatelessWidget {
+class Countries extends StatelessWidget {
   final List<Country> countries;
 
-  const _Countries({required this.countries});
+  const Countries({super.key, required this.countries});
 
   @override
   Widget build(BuildContext context) {

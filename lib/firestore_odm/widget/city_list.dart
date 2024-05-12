@@ -14,7 +14,7 @@ class CityList extends ConsumerWidget {
       appBar: AppBar(title: const Text('Cities')),
       body: SafeArea(
         child: switch (ref.watch(citiesNotifierProvider(countryId))) {
-          AsyncData(value: List<City> cities) => _Cities(cities: cities),
+          AsyncData(value: List<City> cities) => Cities(cities: cities),
           AsyncError(:final error, :final stackTrace) => SingleChildScrollView(child: Text('$error\n$stackTrace')),
           _ => const Center(child: CircularProgressIndicator()),
         },
@@ -23,10 +23,10 @@ class CityList extends ConsumerWidget {
   }
 }
 
-class _Cities extends StatelessWidget {
+class Cities extends StatelessWidget {
   final List<City> cities;
 
-  const _Cities({required this.cities});
+  const Cities({super.key, required this.cities});
 
   @override
   Widget build(BuildContext context) {
