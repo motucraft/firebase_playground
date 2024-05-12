@@ -72,13 +72,19 @@ class CountryListInfiniteScroll extends HookWidget {
                     icon: Icons.edit,
                     label: 'Edit',
                     backgroundColor: Colors.blueAccent,
-                    onPressed: (context) => context.push('/edit-dialog', extra: country),
+                    onPressed: (context) => context.push('/edit-dialog', extra: {
+                      'country': country,
+                      'onTap': () => pagingController.refresh(),
+                    }),
                   ),
                   SlidableAction(
                     icon: Icons.delete,
                     label: 'Delete',
                     backgroundColor: Colors.redAccent,
-                    onPressed: (context) => context.push('/delete-dialog', extra: country),
+                    onPressed: (context) => context.push('/delete-dialog', extra: {
+                      'country': country,
+                      'onTap': () => pagingController.refresh(),
+                    }),
                   ),
                 ],
               ),
@@ -101,7 +107,7 @@ class CountryListInfiniteScroll extends HookWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => context.push('/insert-dialog'),
+        onPressed: () => context.push('/insert-dialog', extra: {'onTap': () => pagingController.refresh()}),
       ),
     );
   }

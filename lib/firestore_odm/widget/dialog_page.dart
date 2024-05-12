@@ -47,7 +47,9 @@ class DialogPage<T> extends Page<T> {
 }
 
 class InsertDialog extends HookConsumerWidget {
-  const InsertDialog({super.key});
+  final VoidCallback? onTap;
+
+  const InsertDialog({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -110,6 +112,9 @@ class InsertDialog extends HookConsumerWidget {
                     });
 
                     if (context.mounted) {
+                      if (onTap != null) {
+                        onTap!();
+                      }
                       context.pop();
                     }
                   },
@@ -133,8 +138,9 @@ class InsertDialog extends HookConsumerWidget {
 
 class EditDialog extends HookConsumerWidget {
   final Country country;
+  final VoidCallback? onTap;
 
-  const EditDialog({super.key, required this.country});
+  const EditDialog({super.key, required this.country, this.onTap});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -180,6 +186,9 @@ class EditDialog extends HookConsumerWidget {
                     });
 
                     if (context.mounted) {
+                      if (onTap != null) {
+                        onTap!();
+                      }
                       context.pop();
                     }
                   },
@@ -204,8 +213,9 @@ class EditDialog extends HookConsumerWidget {
 
 class DeleteDialog extends StatelessWidget {
   final Country country;
+  final VoidCallback? onTap;
 
-  const DeleteDialog({super.key, required this.country});
+  const DeleteDialog({super.key, required this.country, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +244,9 @@ class DeleteDialog extends StatelessWidget {
                     });
 
                     if (context.mounted) {
+                      if (onTap != null) {
+                        onTap!();
+                      }
                       context.pop();
                     }
                   },

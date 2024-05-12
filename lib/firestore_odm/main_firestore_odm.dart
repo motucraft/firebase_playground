@@ -112,18 +112,32 @@ GoRouter routing(RoutingRef ref) {
         name: 'editDialog',
         pageBuilder: (_, state) {
           final extra = state.extra;
-          if (extra is! Country) {
+          if (extra is! Map) {
+            throw UnsupportedError('Unsupported extra. extra=$extra');
+          }
+          final country = extra['country'];
+          final onTap = extra['onTap'];
+          if (country is! Country || onTap is! VoidCallback?) {
             throw UnsupportedError('Unsupported extra. extra=$extra');
           }
 
-          return DialogPage(builder: (context) => EditDialog(country: extra));
+          return DialogPage(builder: (context) => EditDialog(country: country, onTap: onTap));
         },
       ),
       GoRoute(
         parentNavigatorKey: ref.watch(rootNavigationKeyProvider),
         path: '/insert-dialog',
-        pageBuilder: (_, __) {
-          return DialogPage(builder: (context) => const InsertDialog());
+        pageBuilder: (_, state) {
+          final extra = state.extra;
+          if (extra is! Map?) {
+            throw UnsupportedError('Unsupported extra. extra=$extra');
+          }
+          final onTap = extra?['onTap'];
+          if (onTap is! VoidCallback?) {
+            throw UnsupportedError('Unsupported extra. extra=$extra');
+          }
+
+          return DialogPage(builder: (context) => InsertDialog(onTap: onTap));
         },
       ),
       GoRoute(
@@ -131,10 +145,16 @@ GoRouter routing(RoutingRef ref) {
         path: '/delete-dialog',
         pageBuilder: (_, state) {
           final extra = state.extra;
-          if (extra is! Country) {
+          if (extra is! Map) {
             throw UnsupportedError('Unsupported extra. extra=$extra');
           }
-          return DialogPage(builder: (context) => DeleteDialog(country: extra));
+          final country = extra['country'];
+          final onTap = extra['onTap'];
+          if (country is! Country || onTap is! VoidCallback?) {
+            throw UnsupportedError('Unsupported extra. extra=$extra');
+          }
+
+          return DialogPage(builder: (context) => DeleteDialog(country: country, onTap: onTap));
         },
       ),
     ],

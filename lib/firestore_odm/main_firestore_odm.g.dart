@@ -6,7 +6,7 @@ part of 'main_firestore_odm.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routingHash() => r'b502c09381a9d63c1452a9d12078070a72e251de';
+String _$routingHash() => r'e5834bfe9977db194372a40d482d3b991ad0302c';
 
 /// See also [routing].
 @ProviderFor(routing)
