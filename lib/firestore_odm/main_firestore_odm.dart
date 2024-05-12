@@ -46,8 +46,8 @@ class RootPage extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'home'),
-          NavigationDestination(icon: Icon(Icons.format_list_numbered), label: 'infinite'),
+          NavigationDestination(icon: Icon(Icons.home), label: 'Firestore ODM'),
+          NavigationDestination(icon: Icon(Icons.format_list_numbered), label: 'Infinite Scroll'),
         ],
         onDestinationSelected: (index) {
           navigationShell.goBranch(
