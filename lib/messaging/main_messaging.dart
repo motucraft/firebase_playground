@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,8 +33,6 @@ void main() async {
   }
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  log('fcmToken=$fcmToken');
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -123,8 +122,7 @@ class Home extends HookWidget {
     final fcmToken = useState<String?>(null);
     useOnAppLifecycleStateChange((_, current) async {
       if (current == AppLifecycleState.resumed) {
-        fcmToken.value = await FirebaseMessaging.instance.getToken();
-        log('fcmToken=${fcmToken.value}');
+        fcmToken.value = await _getFcmToken();
         // TODO トークンの保存、バックエンドへの連携など
       }
     });
@@ -359,4 +357,20 @@ class BottomSheetPage<T> extends Page<T> {
       elevation: 1.0,
     );
   }
+}
+
+Future<String?> _getFcmToken() async {
+  String? fcmToken;
+  if (Platform.isIOS) {
+    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    if (apnsToken != null) {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    }
+  } else {
+    fcmToken = await FirebaseMessaging.instance.getToken();
+  }
+
+  log('fcmToken=$fcmToken');
+
+  return fcmToken;
 }
