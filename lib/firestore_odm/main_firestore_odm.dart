@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_playground/common/widget/dialog_page.dart';
 import 'package:firebase_playground/firebase_options.dart';
 import 'package:firebase_playground/firestore_odm/firestore/country.dart';
 import 'package:firebase_playground/firestore_odm/widget/city_list.dart';
@@ -47,7 +48,8 @@ class RootPage extends StatelessWidget {
         selectedIndex: navigationShell.currentIndex,
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Firestore ODM'),
-          NavigationDestination(icon: Icon(Icons.format_list_numbered), label: 'Infinite Scroll'),
+          NavigationDestination(
+              icon: Icon(Icons.format_list_numbered), label: 'Infinite Scroll'),
         ],
         onDestinationSelected: (index) {
           navigationShell.goBranch(
@@ -77,7 +79,8 @@ GoRouter routing(RoutingRef ref) {
             routes: [
               GoRoute(
                 path: '/home',
-                pageBuilder: (_, __) => const MaterialPage(child: CountryList()),
+                pageBuilder: (_, __) =>
+                    const MaterialPage(child: CountryList()),
                 routes: [
                   GoRoute(
                     path: 'cities/:id',
@@ -88,7 +91,8 @@ GoRouter routing(RoutingRef ref) {
                         throw UnsupportedError('Unsupported id.');
                       }
 
-                      return MaterialPage(child: CityList(countryId: countryId!));
+                      return MaterialPage(
+                          child: CityList(countryId: countryId!));
                     },
                   ),
                 ],
@@ -100,7 +104,8 @@ GoRouter routing(RoutingRef ref) {
             routes: [
               GoRoute(
                 path: '/infinite',
-                pageBuilder: (_, __) => const MaterialPage(child: CountryListInfiniteScroll()),
+                pageBuilder: (_, __) =>
+                    const MaterialPage(child: CountryListInfiniteScroll()),
               ),
             ],
           ),
@@ -121,7 +126,8 @@ GoRouter routing(RoutingRef ref) {
             throw UnsupportedError('Unsupported extra. extra=$extra');
           }
 
-          return DialogPage(builder: (context) => EditDialog(country: country, onTap: onTap));
+          return DialogPage(
+              builder: (context) => EditDialog(country: country, onTap: onTap));
         },
       ),
       GoRoute(
@@ -154,7 +160,9 @@ GoRouter routing(RoutingRef ref) {
             throw UnsupportedError('Unsupported extra. extra=$extra');
           }
 
-          return DialogPage(builder: (context) => DeleteDialog(country: country, onTap: onTap));
+          return DialogPage(
+              builder: (context) =>
+                  DeleteDialog(country: country, onTap: onTap));
         },
       ),
     ],
@@ -165,10 +173,12 @@ GoRouter routing(RoutingRef ref) {
 }
 
 @riverpod
-GlobalKey<NavigatorState> rootNavigationKey(RootNavigationKeyRef ref) => GlobalKey<NavigatorState>(debugLabel: 'root');
+GlobalKey<NavigatorState> rootNavigationKey(RootNavigationKeyRef ref) =>
+    GlobalKey<NavigatorState>(debugLabel: 'root');
 
 @riverpod
-GlobalKey<NavigatorState> homeNavigationKey(HomeNavigationKeyRef ref) => GlobalKey<NavigatorState>(debugLabel: 'home');
+GlobalKey<NavigatorState> homeNavigationKey(HomeNavigationKeyRef ref) =>
+    GlobalKey<NavigatorState>(debugLabel: 'home');
 
 @riverpod
 GlobalKey<NavigatorState> infiniteNavigationKey(InfiniteNavigationKeyRef ref) =>

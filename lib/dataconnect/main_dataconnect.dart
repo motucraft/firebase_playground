@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_playground/common/widget/dialog_page.dart';
 import 'package:firebase_playground/dataconnect/dataconnect-generated/dart/default_connector/default.dart';
 import 'package:firebase_playground/firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,17 @@ class MovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Firebase Data Connect')),
+      appBar: AppBar(
+        title: Text('Firebase Data Connect'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+                onPressed: () => context.push('/create-movie'),
+                icon: const Icon(Icons.add)),
+          ),
+        ],
+      ),
       body: Consumer(
         builder: (context, ref, child) {
           final moviesAsyncValue = ref.watch(moviesProvider);
@@ -155,6 +166,46 @@ class MovieDetail extends ConsumerWidget {
   }
 }
 
+class CreateMovieDialog extends StatelessWidget {
+  const CreateMovieDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final widthRatio = MediaQuery.sizeOf(context).width / 375;
+
+    return Dialog(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300 * widthRatio),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('TODO'),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text('create'),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: context.pop,
+                  child: Text('cancel'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 @riverpod
 GoRouter routing(RoutingRef ref) {
   final router = GoRouter(
@@ -182,6 +233,12 @@ GoRouter routing(RoutingRef ref) {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/create-movie',
+        pageBuilder: (_, __) {
+          return DialogPage(builder: (context) => CreateMovieDialog());
+        },
       ),
     ],
   );
