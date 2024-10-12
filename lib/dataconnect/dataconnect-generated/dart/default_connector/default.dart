@@ -2,6 +2,10 @@ library default_connector;
 import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'dart:convert';
 
+part 'create_movie.dart';
+
+part 'create_movie_metadata.dart';
+
 part 'list_movies.dart';
 
 part 'get_movie_by_id.dart';
@@ -13,6 +17,16 @@ part 'get_movie_by_id.dart';
 
 
 class DefaultConnector {
+  
+  
+  CreateMovieVariablesBuilder createMovie ({required String title,required String genre,required String imageUrl,}) {
+    return CreateMovieVariablesBuilder(dataConnect, title: title,genre: genre,imageUrl: imageUrl,);
+  }
+  
+  
+  CreateMovieMetadataVariablesBuilder createMovieMetadata ({required String movieId,}) {
+    return CreateMovieMetadataVariablesBuilder(dataConnect, movieId: movieId,);
+  }
   
   
   ListMoviesVariablesBuilder listMovies () {

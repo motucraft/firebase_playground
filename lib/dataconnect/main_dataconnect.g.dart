@@ -6,7 +6,7 @@ part of 'main_dataconnect.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routingHash() => r'd364fe5acc063e6c0f3804c857d9819c3fab91f3';
+String _$routingHash() => r'081e6f6176cdf879f3c47c78f18cb46276f404f4';
 
 /// See also [routing].
 @ProviderFor(routing)

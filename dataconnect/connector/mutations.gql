@@ -1,5 +1,33 @@
 # # Example mutations for a simple movie app
 
+mutation CreateMovie(
+  $title: String!
+  $genre: String!
+  $imageUrl: String!
+) {
+  movie_insert(
+    data: {
+      title: $title
+      genre: $genre
+      imageUrl: $imageUrl
+    }
+  )
+}
+
+mutation CreateMovieMetadata(
+  $movieId: UUID!
+  $description: String
+  $rating: Float
+) {
+  movieMetadata_insert(
+    data: {
+      movieId: $movieId
+      description: $description
+      rating: $rating
+    }
+  )
+}
+
 # # Create a movie based on user input
 # mutation CreateMovie(
 #   $title: String!
