@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "playground-data-connect"
+location: "asia-northeast1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "playground-database"
+      cloudSql:
+        instanceId: "playground-cloud-sql"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]
