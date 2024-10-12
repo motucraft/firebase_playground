@@ -4,6 +4,8 @@ import 'dart:convert';
 
 part 'list_movies.dart';
 
+part 'get_movie_by_id.dart';
+
 
 
 
@@ -15,6 +17,11 @@ class DefaultConnector {
   
   ListMoviesVariablesBuilder listMovies () {
     return ListMoviesVariablesBuilder(dataConnect, );
+  }
+  
+  
+  GetMovieByIdVariablesBuilder getMovieById ({required String id,}) {
+    return GetMovieByIdVariablesBuilder(dataConnect, id: id,);
   }
   
 

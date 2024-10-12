@@ -11,6 +11,20 @@
    }
  }
 
+query GetMovieById($id: UUID!) @auth(level: PUBLIC) {
+  movie(id: $id) {
+    id
+    title
+    imageUrl
+    genre
+    metadata: movieMetadata_on_movie {
+      rating
+      releaseYear
+      description
+    }
+  }
+}
+
 # # List all users, only admins should be able to list all users, so we use NO_ACCESS
 # query ListUsers @auth(level: NO_ACCESS) {
 #   users { id, username }
