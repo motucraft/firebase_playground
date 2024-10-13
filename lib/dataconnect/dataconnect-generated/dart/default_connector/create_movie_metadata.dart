@@ -2,12 +2,17 @@ part of default_connector;
 
 class CreateMovieMetadataVariablesBuilder {
   String movieId;
+Optional<int> _releaseYear = Optional.optional(nativeFromJson, nativeToJson);
 Optional<String> _description = Optional.optional(nativeFromJson, nativeToJson);
 Optional<double> _rating = Optional.optional(nativeFromJson, nativeToJson);
 
   
   FirebaseDataConnect _dataConnect;
-  CreateMovieMetadataVariablesBuilder description(String? t) {
+  CreateMovieMetadataVariablesBuilder releaseYear(int? t) {
+this._releaseYear.value = t;
+return this;
+}
+CreateMovieMetadataVariablesBuilder description(String? t) {
 this._description.value = t;
 return this;
 }
@@ -23,7 +28,7 @@ return this;
     return this.ref().execute();
   }
   MutationRef<CreateMovieMetadataData, CreateMovieMetadataVariables> ref() {
-    CreateMovieMetadataVariables vars=CreateMovieMetadataVariables(movieId: movieId,description: _description,rating: _rating,);
+    CreateMovieMetadataVariables vars=CreateMovieMetadataVariables(movieId: movieId,releaseYear: _releaseYear,description: _description,rating: _rating,);
 
     return _dataConnect.mutation("CreateMovieMetadata", dataDeserializer, varsSerializer, vars);
   }
@@ -127,6 +132,9 @@ return this;
    String movieId;
 
   
+   late Optional<int>releaseYear;
+
+  
    late Optional<String>description;
 
   
@@ -146,6 +154,15 @@ return this;
         
        {
       
+        
+      
+        
+          releaseYear = Optional.optional(nativeFromJson, nativeToJson);
+          releaseYear.value = json['releaseYear'] == null ? null : 
+ 
+    nativeFromJson<int>(json['releaseYear'])
+  
+;
         
       
         
@@ -181,6 +198,12 @@ return this;
       
     
       
+        if(releaseYear.state == OptionalState.set) {
+          json['releaseYear'] = releaseYear.toJson();
+        }
+     
+    
+      
         if(description.state == OptionalState.set) {
           json['description'] = description.toJson();
         }
@@ -198,6 +221,8 @@ return this;
   CreateMovieMetadataVariables({
     
       required this.movieId,
+    
+      required this.releaseYear,
     
       required this.description,
     

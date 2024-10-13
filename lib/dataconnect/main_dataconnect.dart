@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_playground/common/page/dialog_page.dart';
+import 'package:firebase_playground/common/provider/loading_provider.dart';
 import 'package:firebase_playground/dataconnect/dataconnect-generated/dart/default_connector/default.dart';
 import 'package:firebase_playground/firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +26,25 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(routingProvider),
+      builder: (_, child) {
+        return Stack(
+          children: [
+            if (child != null) child,
+            Consumer(
+              builder: (_, ref, __) {
+                final isLoading = ref.watch(loadingProvider);
+                if (isLoading) {
+                  return ColoredBox(
+                    color: Colors.black54,
+                    child: const CircularProgressIndicator(),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -166,12 +187,44 @@ class MovieDetail extends ConsumerWidget {
   }
 }
 
-class CreateMovieDialog extends StatelessWidget {
+class CreateMovieDialog extends HookWidget {
   const CreateMovieDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     final widthRatio = MediaQuery.sizeOf(context).width / 375;
+
+    final titleController = useTextEditingController();
+    final genreController = useTextEditingController();
+    final imageUrlController = useTextEditingController();
+    final releaseYearController = useTextEditingController();
+    final descriptionController = useTextEditingController();
+    final ratingController = useTextEditingController();
+
+    final formKey = useMemoized(() => GlobalKey<FormState>());
+
+    Future<void> createMovie() async {
+      // TODO: Transaction required
+
+      // create movie
+      final result = await DefaultConnector.instance
+          .createMovie(
+              title: titleController.text,
+              genre: genreController.text,
+              imageUrl: imageUrlController.text)
+          .execute();
+      final movieId = result.data.movie_insert.id;
+
+      // create movie metadata
+      await DefaultConnector.instance
+          .createMovieMetadata(
+            movieId: movieId,
+          )
+          .releaseYear(int.parse(releaseYearController.text))
+          .description(descriptionController.text)
+          .rating(double.parse(ratingController.text))
+          .execute();
+    }
 
     return Dialog(
       backgroundColor: Colors.white,
@@ -180,25 +233,108 @@ class CreateMovieDialog extends StatelessWidget {
         constraints: BoxConstraints(maxWidth: 300 * widthRatio),
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('TODO'),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text('create'),
-                ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: titleController,
+                    decoration: const InputDecoration(labelText: 'Title'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please input title.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: genreController,
+                    decoration: const InputDecoration(labelText: 'Genre'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please input genre.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: imageUrlController,
+                    decoration: const InputDecoration(labelText: 'Image URL'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please input image URL.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: releaseYearController,
+                    decoration:
+                        const InputDecoration(labelText: 'Release Year'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || int.tryParse(value) == null) {
+                        return 'please input valid release year.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: descriptionController,
+                    decoration: const InputDecoration(labelText: 'Description'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please input description.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: ratingController,
+                    decoration:
+                        const InputDecoration(labelText: 'Rating (1-5)'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      final rating = double.tryParse(value ?? '');
+                      if (rating == null || rating < 1 || rating > 5) {
+                        return 'please input valid rating (1-5).';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (formKey.currentState?.validate() == true) {
+                          await createMovie();
+
+                          if (context.mounted) {
+                            context.pop();
+                          }
+                        }
+                      },
+                      child: Text('create'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: context.pop,
+                      child: Text('cancel'),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: context.pop,
-                  child: Text('cancel'),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

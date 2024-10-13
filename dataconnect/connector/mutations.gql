@@ -4,7 +4,7 @@ mutation CreateMovie(
   $title: String!
   $genre: String!
   $imageUrl: String!
-) {
+) @auth(level: PUBLIC) {
   movie_insert(
     data: {
       title: $title
@@ -16,12 +16,14 @@ mutation CreateMovie(
 
 mutation CreateMovieMetadata(
   $movieId: UUID!
+  $releaseYear: Int
   $description: String
   $rating: Float
-) {
+) @auth(level: PUBLIC) {
   movieMetadata_insert(
     data: {
       movieId: $movieId
+      releaseYear: $releaseYear
       description: $description
       rating: $rating
     }
