@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_playground/common/widget/dialog_page.dart';
+import 'package:firebase_playground/common/page/dialog_page.dart';
 import 'package:firebase_playground/dataconnect/dataconnect-generated/dart/default_connector/default.dart';
 import 'package:firebase_playground/firebase_options.dart';
 import 'package:flutter/material.dart';

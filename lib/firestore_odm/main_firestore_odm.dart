@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_playground/common/widget/dialog_page.dart';
+import 'package:firebase_playground/common/page/dialog_page.dart';
 import 'package:firebase_playground/firebase_options.dart';
 import 'package:firebase_playground/firestore_odm/firestore/country.dart';
 import 'package:firebase_playground/firestore_odm/widget/city_list.dart';
