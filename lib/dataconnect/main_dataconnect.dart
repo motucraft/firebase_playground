@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'package:firebase_playground/common/page/dialog_page.dart';
 import 'package:firebase_playground/common/provider/loading_provider.dart';
 import 'package:firebase_playground/dataconnect/dataconnect-generated/dart/default_connector/default.dart';
@@ -73,7 +74,7 @@ class MovieList extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
 
-          final movies = moviesAsyncValue.valueOrNull;
+          final movies = moviesAsyncValue.valueOrNull?.data.movies;
           if (movies == null || movies.isEmpty) {
             return const SizedBox();
           }
@@ -224,6 +225,9 @@ class CreateMovieDialog extends HookConsumerWidget {
           .description(descriptionController.text)
           .rating(double.parse(ratingController.text))
           .execute();
+
+      // Ref: https://firebase.google.com/docs/data-connect/flutter-sdk?_gl=1*1n9hgvf*_up*MQ..*_ga*MTk1Njg1MTc1LjE3Mjg3OTU0MzY.*_ga_CW55HF8NVT*MTcyODc5NTQzNS4xLjAuMTcyODc5NTQzNS4wLjAuMA..#subscribing-changes
+      await ref.read(listMovieRefProvider).execute();
     }
 
     return Dialog(
@@ -386,9 +390,14 @@ GoRouter routing(RoutingRef ref) {
 }
 
 @riverpod
-Future<List<ListMoviesMovies>> movies(MoviesRef ref) async {
-  final result = await DefaultConnector.instance.listMovies().execute();
-  return result.data.movies;
+QueryRef<ListMoviesData, void> listMovieRef(ListMovieRefRef ref) {
+  return DefaultConnector.instance.listMovies().ref();
+}
+
+@riverpod
+Stream<QueryResult<ListMoviesData, void>> movies(MoviesRef ref) {
+  final listRef = ref.watch(listMovieRefProvider);
+  return listRef.subscribe();
 }
 
 @riverpod

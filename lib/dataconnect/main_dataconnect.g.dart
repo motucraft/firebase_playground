@@ -20,12 +20,28 @@ final routingProvider = AutoDisposeProvider<GoRouter>.internal(
 );
 
 typedef RoutingRef = AutoDisposeProviderRef<GoRouter>;
-String _$moviesHash() => r'84e46a49e11bef8512f54c70969eaf8353d258b5';
+String _$listMovieRefHash() => r'73656e72195bfc82f8d1bf5d2506c704a311bcdc';
+
+/// See also [listMovieRef].
+@ProviderFor(listMovieRef)
+final listMovieRefProvider =
+    AutoDisposeProvider<QueryRef<ListMoviesData, void>>.internal(
+  listMovieRef,
+  name: r'listMovieRefProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$listMovieRefHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ListMovieRefRef
+    = AutoDisposeProviderRef<QueryRef<ListMoviesData, void>>;
+String _$moviesHash() => r'5e28fac5af82d7dc89c7c67f42b63ccc2413f621';
 
 /// See also [movies].
 @ProviderFor(movies)
 final moviesProvider =
-    AutoDisposeFutureProvider<List<ListMoviesMovies>>.internal(
+    AutoDisposeStreamProvider<QueryResult<ListMoviesData, void>>.internal(
   movies,
   name: r'moviesProvider',
   debugGetCreateSourceHash:
@@ -34,7 +50,8 @@ final moviesProvider =
   allTransitiveDependencies: null,
 );
 
-typedef MoviesRef = AutoDisposeFutureProviderRef<List<ListMoviesMovies>>;
+typedef MoviesRef
+    = AutoDisposeStreamProviderRef<QueryResult<ListMoviesData, void>>;
 String _$movieByIdHash() => r'5e4c06603e37384461ffbca4e0e918478ee3a3db';
 
 /// Copied from Dart SDK
