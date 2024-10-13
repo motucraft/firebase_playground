@@ -6,45 +6,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
-class DialogPage<T> extends Page<T> {
-  final Offset? anchorPoint;
-  final Color? barrierColor;
-  final bool barrierDismissible;
-  final String? barrierLabel;
-  final bool useSafeArea;
-  final CapturedThemes? themes;
-  final WidgetBuilder builder;
-
-  const DialogPage({
-    required this.builder,
-    this.anchorPoint,
-    this.barrierColor = Colors.black54,
-    this.barrierDismissible = true,
-    this.barrierLabel,
-    this.useSafeArea = true,
-    this.themes,
-    super.key,
-    super.name,
-    super.arguments,
-    super.restorationId,
-  });
-
-  @override
-  Route<T> createRoute(BuildContext context) {
-    return DialogRoute<T>(
-      context: context,
-      settings: this,
-      builder: builder,
-      anchorPoint: anchorPoint,
-      barrierColor: barrierColor,
-      barrierDismissible: barrierDismissible,
-      barrierLabel: barrierLabel,
-      useSafeArea: useSafeArea,
-      themes: themes,
-    );
-  }
-}
-
 class InsertDialog extends HookWidget {
   final VoidCallback? onTap;
 
@@ -88,12 +49,14 @@ class InsertDialog extends HookWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
                   ),
                   child: const Text('insert'),
                   onPressed: () async {
                     final id = const Uuid().v4();
-                    await FirebaseFirestore.instance.runTransaction((transaction) async {
+                    await FirebaseFirestore.instance
+                        .runTransaction((transaction) async {
                       transaction.set(
                         countryRef(id: id).reference,
                         Country(
@@ -161,7 +124,8 @@ class EditDialog extends HookWidget {
               const SizedBox(height: 8),
               Align(alignment: Alignment.centerLeft, child: Text(country.name)),
               TextField(
-                controller: useTextEditingController(text: country.population.toString()),
+                controller: useTextEditingController(
+                    text: country.population.toString()),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: const InputDecoration(hintText: 'population'),
@@ -172,10 +136,12 @@ class EditDialog extends HookWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
                   ),
                   onPressed: () async {
-                    await FirebaseFirestore.instance.runTransaction((transaction) async {
+                    await FirebaseFirestore.instance
+                        .runTransaction((transaction) async {
                       transaction.update(countryRef(id: country.id).reference, {
                         'population': population.value,
                       });
@@ -236,10 +202,12 @@ class DeleteDialog extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
                   ),
                   onPressed: () async {
-                    await FirebaseFirestore.instance.runTransaction((transaction) async {
+                    await FirebaseFirestore.instance
+                        .runTransaction((transaction) async {
                       transaction.delete(countryRef(id: country.id).reference);
                     });
 

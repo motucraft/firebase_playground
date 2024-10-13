@@ -128,6 +128,63 @@ abstract class CountryDocumentReference
   @override
   Future<void> delete();
 
+  /// Sets data on the document, overwriting any existing data. If the document
+  /// does not yet exist, it will be created.
+  ///
+  /// If [SetOptions] are provided, the data can be merged into an existing
+  /// document instead of overwriting.
+  ///
+  /// Any [FieldValue]s provided will replace the corresponding fields in the
+  /// [model] during serialization.
+  Future<void> set(
+    Country model, {
+    SetOptions? options,
+    FieldValue idFieldValue,
+    FieldValue nameFieldValue,
+    FieldValue capitalFieldValue,
+    FieldValue populationFieldValue,
+    FieldValue createdAtFieldValue,
+    FieldValue updatedAtFieldValue,
+  });
+
+  /// Writes to the document using the transaction API.
+  ///
+  /// If the document does not exist yet, it will be created. If you pass
+  /// [SetOptions], the provided data can be merged into the existing document.
+  ///
+  /// Any [FieldValue]s provided will replace the corresponding fields in the
+  /// [model] during serialization.
+  void transactionSet(
+    Transaction transaction,
+    Country model, {
+    SetOptions? options,
+    FieldValue idFieldValue,
+    FieldValue nameFieldValue,
+    FieldValue capitalFieldValue,
+    FieldValue populationFieldValue,
+    FieldValue createdAtFieldValue,
+    FieldValue updatedAtFieldValue,
+  });
+
+  /// Writes to the document using the batch API.
+  ///
+  /// If the document does not exist yet, it will be created. If you pass
+  /// [SetOptions], the provided data can be merged into the existing document.
+  ///
+  /// Any [FieldValue]s provided will replace the corresponding fields in the
+  /// [model] during serialization.
+  void batchSet(
+    WriteBatch batch,
+    Country model, {
+    SetOptions? options,
+    FieldValue idFieldValue,
+    FieldValue nameFieldValue,
+    FieldValue capitalFieldValue,
+    FieldValue populationFieldValue,
+    FieldValue createdAtFieldValue,
+    FieldValue updatedAtFieldValue,
+  });
+
   /// Updates data on the document. Data will be merged with any existing
   /// document data.
   ///
@@ -152,6 +209,25 @@ abstract class CountryDocumentReference
   /// The update will fail if applied to a document that does not exist.
   void transactionUpdate(
     Transaction transaction, {
+    String id,
+    FieldValue idFieldValue,
+    String name,
+    FieldValue nameFieldValue,
+    String capital,
+    FieldValue capitalFieldValue,
+    int population,
+    FieldValue populationFieldValue,
+    DateTime? createdAt,
+    FieldValue createdAtFieldValue,
+    DateTime? updatedAt,
+    FieldValue updatedAtFieldValue,
+  });
+
+  /// Updates fields in the current document using the batch API.
+  ///
+  /// The update will fail if applied to a document that does not exist.
+  void batchUpdate(
+    WriteBatch batch, {
     String id,
     FieldValue idFieldValue,
     String name,
@@ -197,6 +273,96 @@ class _$CountryDocumentReference
   @override
   Future<CountryDocumentSnapshot> transactionGet(Transaction transaction) {
     return transaction.get(reference).then(CountryDocumentSnapshot._);
+  }
+
+  Future<void> set(
+    Country model, {
+    SetOptions? options,
+    FieldValue? idFieldValue,
+    FieldValue? nameFieldValue,
+    FieldValue? capitalFieldValue,
+    FieldValue? populationFieldValue,
+    FieldValue? createdAtFieldValue,
+    FieldValue? updatedAtFieldValue,
+  }) async {
+    final json = {
+      ...model.toJson(),
+      if (idFieldValue != null) _$$CountryImplFieldMap['id']!: idFieldValue,
+      if (nameFieldValue != null)
+        _$$CountryImplFieldMap['name']!: nameFieldValue,
+      if (capitalFieldValue != null)
+        _$$CountryImplFieldMap['capital']!: capitalFieldValue,
+      if (populationFieldValue != null)
+        _$$CountryImplFieldMap['population']!: populationFieldValue,
+      if (createdAtFieldValue != null)
+        _$$CountryImplFieldMap['createdAt']!: createdAtFieldValue,
+      if (updatedAtFieldValue != null)
+        _$$CountryImplFieldMap['updatedAt']!: updatedAtFieldValue,
+    };
+
+    final castedReference = reference.withConverter<Map<String, dynamic>>(
+      fromFirestore: (snapshot, options) => throw UnimplementedError(),
+      toFirestore: (value, options) => value,
+    );
+    return castedReference.set(json, options);
+  }
+
+  void transactionSet(
+    Transaction transaction,
+    Country model, {
+    SetOptions? options,
+    FieldValue? idFieldValue,
+    FieldValue? nameFieldValue,
+    FieldValue? capitalFieldValue,
+    FieldValue? populationFieldValue,
+    FieldValue? createdAtFieldValue,
+    FieldValue? updatedAtFieldValue,
+  }) {
+    final json = {
+      ...model.toJson(),
+      if (idFieldValue != null) _$$CountryImplFieldMap['id']!: idFieldValue,
+      if (nameFieldValue != null)
+        _$$CountryImplFieldMap['name']!: nameFieldValue,
+      if (capitalFieldValue != null)
+        _$$CountryImplFieldMap['capital']!: capitalFieldValue,
+      if (populationFieldValue != null)
+        _$$CountryImplFieldMap['population']!: populationFieldValue,
+      if (createdAtFieldValue != null)
+        _$$CountryImplFieldMap['createdAt']!: createdAtFieldValue,
+      if (updatedAtFieldValue != null)
+        _$$CountryImplFieldMap['updatedAt']!: updatedAtFieldValue,
+    };
+
+    transaction.set(reference, json, options);
+  }
+
+  void batchSet(
+    WriteBatch batch,
+    Country model, {
+    SetOptions? options,
+    FieldValue? idFieldValue,
+    FieldValue? nameFieldValue,
+    FieldValue? capitalFieldValue,
+    FieldValue? populationFieldValue,
+    FieldValue? createdAtFieldValue,
+    FieldValue? updatedAtFieldValue,
+  }) {
+    final json = {
+      ...model.toJson(),
+      if (idFieldValue != null) _$$CountryImplFieldMap['id']!: idFieldValue,
+      if (nameFieldValue != null)
+        _$$CountryImplFieldMap['name']!: nameFieldValue,
+      if (capitalFieldValue != null)
+        _$$CountryImplFieldMap['capital']!: capitalFieldValue,
+      if (populationFieldValue != null)
+        _$$CountryImplFieldMap['population']!: populationFieldValue,
+      if (createdAtFieldValue != null)
+        _$$CountryImplFieldMap['createdAt']!: createdAtFieldValue,
+      if (updatedAtFieldValue != null)
+        _$$CountryImplFieldMap['updatedAt']!: updatedAtFieldValue,
+    };
+
+    batch.set(reference, json, options);
   }
 
   Future<void> update({
@@ -344,6 +510,80 @@ class _$CountryDocumentReference
     };
 
     transaction.update(reference, json);
+  }
+
+  void batchUpdate(
+    WriteBatch batch, {
+    Object? id = _sentinel,
+    FieldValue? idFieldValue,
+    Object? name = _sentinel,
+    FieldValue? nameFieldValue,
+    Object? capital = _sentinel,
+    FieldValue? capitalFieldValue,
+    Object? population = _sentinel,
+    FieldValue? populationFieldValue,
+    Object? createdAt = _sentinel,
+    FieldValue? createdAtFieldValue,
+    Object? updatedAt = _sentinel,
+    FieldValue? updatedAtFieldValue,
+  }) {
+    assert(
+      id == _sentinel || idFieldValue == null,
+      "Cannot specify both id and idFieldValue",
+    );
+    assert(
+      name == _sentinel || nameFieldValue == null,
+      "Cannot specify both name and nameFieldValue",
+    );
+    assert(
+      capital == _sentinel || capitalFieldValue == null,
+      "Cannot specify both capital and capitalFieldValue",
+    );
+    assert(
+      population == _sentinel || populationFieldValue == null,
+      "Cannot specify both population and populationFieldValue",
+    );
+    assert(
+      createdAt == _sentinel || createdAtFieldValue == null,
+      "Cannot specify both createdAt and createdAtFieldValue",
+    );
+    assert(
+      updatedAt == _sentinel || updatedAtFieldValue == null,
+      "Cannot specify both updatedAt and updatedAtFieldValue",
+    );
+    final json = {
+      if (id != _sentinel)
+        _$$CountryImplFieldMap['id']!:
+            _$$CountryImplPerFieldToJson.id(id as String),
+      if (idFieldValue != null) _$$CountryImplFieldMap['id']!: idFieldValue,
+      if (name != _sentinel)
+        _$$CountryImplFieldMap['name']!:
+            _$$CountryImplPerFieldToJson.name(name as String),
+      if (nameFieldValue != null)
+        _$$CountryImplFieldMap['name']!: nameFieldValue,
+      if (capital != _sentinel)
+        _$$CountryImplFieldMap['capital']!:
+            _$$CountryImplPerFieldToJson.capital(capital as String),
+      if (capitalFieldValue != null)
+        _$$CountryImplFieldMap['capital']!: capitalFieldValue,
+      if (population != _sentinel)
+        _$$CountryImplFieldMap['population']!:
+            _$$CountryImplPerFieldToJson.population(population as int),
+      if (populationFieldValue != null)
+        _$$CountryImplFieldMap['population']!: populationFieldValue,
+      if (createdAt != _sentinel)
+        _$$CountryImplFieldMap['createdAt']!:
+            _$$CountryImplPerFieldToJson.createdAt(createdAt as DateTime?),
+      if (createdAtFieldValue != null)
+        _$$CountryImplFieldMap['createdAt']!: createdAtFieldValue,
+      if (updatedAt != _sentinel)
+        _$$CountryImplFieldMap['updatedAt']!:
+            _$$CountryImplPerFieldToJson.updatedAt(updatedAt as DateTime?),
+      if (updatedAtFieldValue != null)
+        _$$CountryImplFieldMap['updatedAt']!: updatedAtFieldValue,
+    };
+
+    batch.update(reference, json);
   }
 
   @override
@@ -1788,6 +2028,54 @@ abstract class CityDocumentReference
   @override
   Future<void> delete();
 
+  /// Sets data on the document, overwriting any existing data. If the document
+  /// does not yet exist, it will be created.
+  ///
+  /// If [SetOptions] are provided, the data can be merged into an existing
+  /// document instead of overwriting.
+  ///
+  /// Any [FieldValue]s provided will replace the corresponding fields in the
+  /// [model] during serialization.
+  Future<void> set(
+    City model, {
+    SetOptions? options,
+    FieldValue idFieldValue,
+    FieldValue nameFieldValue,
+    FieldValue populationFieldValue,
+  });
+
+  /// Writes to the document using the transaction API.
+  ///
+  /// If the document does not exist yet, it will be created. If you pass
+  /// [SetOptions], the provided data can be merged into the existing document.
+  ///
+  /// Any [FieldValue]s provided will replace the corresponding fields in the
+  /// [model] during serialization.
+  void transactionSet(
+    Transaction transaction,
+    City model, {
+    SetOptions? options,
+    FieldValue idFieldValue,
+    FieldValue nameFieldValue,
+    FieldValue populationFieldValue,
+  });
+
+  /// Writes to the document using the batch API.
+  ///
+  /// If the document does not exist yet, it will be created. If you pass
+  /// [SetOptions], the provided data can be merged into the existing document.
+  ///
+  /// Any [FieldValue]s provided will replace the corresponding fields in the
+  /// [model] during serialization.
+  void batchSet(
+    WriteBatch batch,
+    City model, {
+    SetOptions? options,
+    FieldValue idFieldValue,
+    FieldValue nameFieldValue,
+    FieldValue populationFieldValue,
+  });
+
   /// Updates data on the document. Data will be merged with any existing
   /// document data.
   ///
@@ -1806,6 +2094,19 @@ abstract class CityDocumentReference
   /// The update will fail if applied to a document that does not exist.
   void transactionUpdate(
     Transaction transaction, {
+    String id,
+    FieldValue idFieldValue,
+    String name,
+    FieldValue nameFieldValue,
+    int population,
+    FieldValue populationFieldValue,
+  });
+
+  /// Updates fields in the current document using the batch API.
+  ///
+  /// The update will fail if applied to a document that does not exist.
+  void batchUpdate(
+    WriteBatch batch, {
     String id,
     FieldValue idFieldValue,
     String name,
@@ -1846,6 +2147,66 @@ class _$CityDocumentReference
   @override
   Future<CityDocumentSnapshot> transactionGet(Transaction transaction) {
     return transaction.get(reference).then(CityDocumentSnapshot._);
+  }
+
+  Future<void> set(
+    City model, {
+    SetOptions? options,
+    FieldValue? idFieldValue,
+    FieldValue? nameFieldValue,
+    FieldValue? populationFieldValue,
+  }) async {
+    final json = {
+      ...model.toJson(),
+      if (idFieldValue != null) _$$CityImplFieldMap['id']!: idFieldValue,
+      if (nameFieldValue != null) _$$CityImplFieldMap['name']!: nameFieldValue,
+      if (populationFieldValue != null)
+        _$$CityImplFieldMap['population']!: populationFieldValue,
+    };
+
+    final castedReference = reference.withConverter<Map<String, dynamic>>(
+      fromFirestore: (snapshot, options) => throw UnimplementedError(),
+      toFirestore: (value, options) => value,
+    );
+    return castedReference.set(json, options);
+  }
+
+  void transactionSet(
+    Transaction transaction,
+    City model, {
+    SetOptions? options,
+    FieldValue? idFieldValue,
+    FieldValue? nameFieldValue,
+    FieldValue? populationFieldValue,
+  }) {
+    final json = {
+      ...model.toJson(),
+      if (idFieldValue != null) _$$CityImplFieldMap['id']!: idFieldValue,
+      if (nameFieldValue != null) _$$CityImplFieldMap['name']!: nameFieldValue,
+      if (populationFieldValue != null)
+        _$$CityImplFieldMap['population']!: populationFieldValue,
+    };
+
+    transaction.set(reference, json, options);
+  }
+
+  void batchSet(
+    WriteBatch batch,
+    City model, {
+    SetOptions? options,
+    FieldValue? idFieldValue,
+    FieldValue? nameFieldValue,
+    FieldValue? populationFieldValue,
+  }) {
+    final json = {
+      ...model.toJson(),
+      if (idFieldValue != null) _$$CityImplFieldMap['id']!: idFieldValue,
+      if (nameFieldValue != null) _$$CityImplFieldMap['name']!: nameFieldValue,
+      if (populationFieldValue != null)
+        _$$CityImplFieldMap['population']!: populationFieldValue,
+    };
+
+    batch.set(reference, json, options);
   }
 
   Future<void> update({
@@ -1923,6 +2284,45 @@ class _$CityDocumentReference
     };
 
     transaction.update(reference, json);
+  }
+
+  void batchUpdate(
+    WriteBatch batch, {
+    Object? id = _sentinel,
+    FieldValue? idFieldValue,
+    Object? name = _sentinel,
+    FieldValue? nameFieldValue,
+    Object? population = _sentinel,
+    FieldValue? populationFieldValue,
+  }) {
+    assert(
+      id == _sentinel || idFieldValue == null,
+      "Cannot specify both id and idFieldValue",
+    );
+    assert(
+      name == _sentinel || nameFieldValue == null,
+      "Cannot specify both name and nameFieldValue",
+    );
+    assert(
+      population == _sentinel || populationFieldValue == null,
+      "Cannot specify both population and populationFieldValue",
+    );
+    final json = {
+      if (id != _sentinel)
+        _$$CityImplFieldMap['id']!: _$$CityImplPerFieldToJson.id(id as String),
+      if (idFieldValue != null) _$$CityImplFieldMap['id']!: idFieldValue,
+      if (name != _sentinel)
+        _$$CityImplFieldMap['name']!:
+            _$$CityImplPerFieldToJson.name(name as String),
+      if (nameFieldValue != null) _$$CityImplFieldMap['name']!: nameFieldValue,
+      if (population != _sentinel)
+        _$$CityImplFieldMap['population']!:
+            _$$CityImplPerFieldToJson.population(population as int),
+      if (populationFieldValue != null)
+        _$$CityImplFieldMap['population']!: populationFieldValue,
+    };
+
+    batch.update(reference, json);
   }
 
   @override
