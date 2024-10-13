@@ -36,7 +36,7 @@ class MyApp extends ConsumerWidget {
                 if (isLoading) {
                   return ColoredBox(
                     color: Colors.black54,
-                    child: const CircularProgressIndicator(),
+                    child: Center(child: const CircularProgressIndicator()),
                   );
                 }
                 return const SizedBox();
@@ -187,11 +187,11 @@ class MovieDetail extends ConsumerWidget {
   }
 }
 
-class CreateMovieDialog extends HookWidget {
+class CreateMovieDialog extends HookConsumerWidget {
   const CreateMovieDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final widthRatio = MediaQuery.sizeOf(context).width / 375;
 
     final titleController = useTextEditingController();
@@ -315,7 +315,9 @@ class CreateMovieDialog extends HookWidget {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (formKey.currentState?.validate() == true) {
-                          await createMovie();
+                          await ref
+                              .read(loadingProvider.notifier)
+                              .wrap(createMovie());
 
                           if (context.mounted) {
                             context.pop();
