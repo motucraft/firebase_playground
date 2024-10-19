@@ -6,7 +6,7 @@ import fs from 'fs';
 
 const SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'];
 
-const key = JSON.parse(fs.readFileSync('./fir-playground-5015e-firebase-adminsdk-gebdv-06b7ac4cdb.json', 'utf-8'));
+const key = JSON.parse(fs.readFileSync('./service-account-file.json', 'utf-8'));
 
 function getAccessToken() {
   return new Promise(function(resolve, reject) {
