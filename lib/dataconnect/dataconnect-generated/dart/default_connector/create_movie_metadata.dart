@@ -2,9 +2,9 @@ part of default_connector;
 
 class CreateMovieMetadataVariablesBuilder {
   String movieId;
-Optional<int?> _releaseYear = Optional.optional(nativeFromJson, nativeToJson);
-Optional<String?> _description = Optional.optional(nativeFromJson, nativeToJson);
-Optional<double?> _rating = Optional.optional(nativeFromJson, nativeToJson);
+Optional<int> _releaseYear = Optional.optional(nativeFromJson, nativeToJson);
+Optional<String> _description = Optional.optional(nativeFromJson, nativeToJson);
+Optional<double> _rating = Optional.optional(nativeFromJson, nativeToJson);
 
   
   FirebaseDataConnect _dataConnect;
@@ -134,13 +134,13 @@ return this;
    String movieId;
 
   
-   late Optional<int?>releaseYear;
+   late Optional<int>releaseYear;
 
   
-   late Optional<String?>description;
+   late Optional<String>description;
 
   
-   late Optional<double?>rating;
+   late Optional<double>rating;
 
   
   
