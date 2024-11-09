@@ -40,6 +40,7 @@ class GetMovieByIdVariablesBuilder {
   
     
     
+    
     GetMovieByIdMovie.fromJson(dynamic json):
         id = 
  
@@ -176,6 +177,7 @@ class GetMovieByIdVariablesBuilder {
   
     
     
+    
     GetMovieByIdMovieMetadata.fromJson(dynamic json):
         rating = json['rating'] == null ? null : 
  
@@ -268,6 +270,7 @@ class GetMovieByIdVariablesBuilder {
   
     
     
+    
     GetMovieByIdData.fromJson(dynamic json):
         movie = json['movie'] == null ? null : 
  
@@ -314,6 +317,9 @@ class GetMovieByIdVariablesBuilder {
 
   
   
+    
+    
+     @Deprecated('fromJson is deprecated for Variable classes as they are no longer required for deserialization.')
     
     
     GetMovieByIdVariables.fromJson(Map<String, dynamic> json):

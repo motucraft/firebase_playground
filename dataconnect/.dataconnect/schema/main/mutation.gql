@@ -54,6 +54,24 @@ extend type Mutation {
     data: MovieMetadata_Data!
   ): MovieMetadata_KeyOutput! @fdc_generated(from: "MovieMetadata", purpose: UPSERT_SINGLE)
   """
+  ✨ Insert or update `Movie` objects into the table, based on the primary key. Returns the key of the newly inserted `Movie`.
+  """
+  movie_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Movie_Data!]!
+  ): [Movie_KeyOutput!]! @fdc_generated(from: "Movie", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `MovieMetadata` objects into the table, based on the primary key. Returns the key of the newly inserted `MovieMetadata`.
+  """
+  movieMetadata_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [MovieMetadata_Data!]!
+  ): [MovieMetadata_KeyOutput!]! @fdc_generated(from: "MovieMetadata", purpose: UPSERT_MULTIPLE)
+  """
   ✨ Update a single `Movie` based on `id`, `key` or `first`, setting columns specified in `data`. Returns `null` if not found.
   """
   movie_update(

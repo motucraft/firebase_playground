@@ -2,9 +2,9 @@ part of default_connector;
 
 class CreateMovieMetadataVariablesBuilder {
   String movieId;
-Optional<int> _releaseYear = Optional.optional(nativeFromJson, nativeToJson);
-Optional<String> _description = Optional.optional(nativeFromJson, nativeToJson);
-Optional<double> _rating = Optional.optional(nativeFromJson, nativeToJson);
+Optional<int?> _releaseYear = Optional.optional(nativeFromJson, nativeToJson);
+Optional<String?> _description = Optional.optional(nativeFromJson, nativeToJson);
+Optional<double?> _rating = Optional.optional(nativeFromJson, nativeToJson);
 
   
   FirebaseDataConnect _dataConnect;
@@ -41,6 +41,7 @@ return this;
 
   
   
+    
     
     
     CreateMovieMetadataMovieMetadataInsert.fromJson(dynamic json):
@@ -89,6 +90,7 @@ return this;
   
     
     
+    
     CreateMovieMetadataData.fromJson(dynamic json):
         movieMetadata_insert = 
  
@@ -132,16 +134,19 @@ return this;
    String movieId;
 
   
-   late Optional<int>releaseYear;
+   late Optional<int?>releaseYear;
 
   
-   late Optional<String>description;
+   late Optional<String?>description;
 
   
-   late Optional<double>rating;
+   late Optional<double?>rating;
 
   
   
+    
+    
+     @Deprecated('fromJson is deprecated for Variable classes as they are no longer required for deserialization.')
     
     
     CreateMovieMetadataVariables.fromJson(Map<String, dynamic> json):

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -369,7 +368,7 @@ class BottomSheetPage<T> extends Page<T> {
 
 Future<String?> _getFcmToken() async {
   String? fcmToken;
-  if (Platform.isIOS) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
     if (apnsToken != null) {
       fcmToken = await FirebaseMessaging.instance.getToken();

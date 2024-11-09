@@ -35,6 +35,7 @@ class ListMoviesVariablesBuilder {
   
     
     
+    
     ListMoviesMovies.fromJson(dynamic json):
         id = 
  
@@ -141,6 +142,7 @@ class ListMoviesVariablesBuilder {
 
   
   
+    
     
     
     ListMoviesData.fromJson(dynamic json):

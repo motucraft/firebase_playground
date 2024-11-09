@@ -30,6 +30,7 @@ String imageUrl;
   
     
     
+    
     CreateMovieMovieInsert.fromJson(dynamic json):
         id = 
  
@@ -74,6 +75,7 @@ String imageUrl;
 
   
   
+    
     
     
     CreateMovieData.fromJson(dynamic json):
@@ -126,6 +128,9 @@ String imageUrl;
 
   
   
+    
+    
+     @Deprecated('fromJson is deprecated for Variable classes as they are no longer required for deserialization.')
     
     
     CreateMovieVariables.fromJson(Map<String, dynamic> json):

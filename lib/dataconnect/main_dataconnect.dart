@@ -67,36 +67,39 @@ class MovieList extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          final moviesAsyncValue = ref.watch(moviesProvider);
-          if (moviesAsyncValue.hasError || moviesAsyncValue.isLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: SafeArea(
+        child: Consumer(
+          builder: (context, ref, child) {
+            final moviesAsyncValue = ref.watch(moviesProvider);
+            if (moviesAsyncValue.hasError || moviesAsyncValue.isLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-          final movies = moviesAsyncValue.valueOrNull?.data.movies;
-          if (movies == null || movies.isEmpty) {
-            return const SizedBox();
-          }
+            final movies = moviesAsyncValue.valueOrNull?.data.movies;
+            if (movies == null || movies.isEmpty) {
+              return const SizedBox();
+            }
 
-          return ListView.separated(
-            itemCount: movies.length,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            separatorBuilder: (_, __) => const Divider(),
-            itemBuilder: (context, index) {
-              final movie = movies[index];
-              return ListTile(
-                title: Text(movie.title),
-                subtitle: Text(movie.genre ?? ''),
-                leading: Image.network(movie.imageUrl),
-                trailing: Icon(Icons.chevron_right),
-                onTap: () {
-                  context.go('/movie-detail/${movie.id}?title=${movie.title}');
-                },
-              );
-            },
-          );
-        },
+            return ListView.separated(
+              itemCount: movies.length,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              separatorBuilder: (_, __) => const Divider(),
+              itemBuilder: (context, index) {
+                final movie = movies[index];
+                return ListTile(
+                  title: Text(movie.title),
+                  subtitle: Text(movie.genre ?? ''),
+                  leading: Image.network(movie.imageUrl),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
+                    context
+                        .go('/movie-detail/${movie.id}?title=${movie.title}');
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
