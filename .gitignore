@@ -51,3 +51,5 @@ GoogleService-Info.plist
 firebase.json
 
 tools/access_token/service-account-file.json
+
+node_modules/
